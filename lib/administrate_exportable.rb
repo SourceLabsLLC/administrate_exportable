@@ -4,7 +4,11 @@ require "administrate_exportable/exporter"
 module AdministrateExportable
   extend ActiveSupport::Concern
 
-  module ClassMethods
+  included do
+    exportable
+  end
+
+  class_methods do
     def exportable
       define_method(:export) do
         csv_data = Exporter.csv(dashboard, resource_class)
