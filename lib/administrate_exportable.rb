@@ -4,5 +4,6 @@ require "administrate_exportable/exporter"
 require "administrate_exportable/exporter_helper"
 
 module AdministrateExportable
-
+  class Engine < ::Rails::Engine
+  end
 end
