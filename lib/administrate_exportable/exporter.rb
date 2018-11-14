@@ -4,7 +4,6 @@ module AdministrateExportable
 
     included do
       exportable
-      helper ExporterHelper
     end
 
     class_methods do
