@@ -1,9 +1,3 @@
-# AdministrateExportable
-
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/administrate_exportable`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -31,7 +25,7 @@ For each resource you want to be exportable, add the following line the their re
 ```ruby
 include AdministrateExportable::Exporter
 ```
-and the following on the `routes` file, correctly nested on resources
+and the following line on the `routes` file, correctly nested on resources
 ```ruby
 get :export, on: :collection
 ```
@@ -45,8 +39,19 @@ namespace :admin do
 ....
 ```
 
+To specify which attribute will be exported, just pass the option `export: true`, to the attribute on the dashboard.
 
-By default the gem, already adds the export button on the view `views/admin/application/index.html.erb`. But if you have your owns administrate `index` views, you can use the helper `export_button`, to display the button.
+Example:
+```ruby
+class BusinessDashboard < Administrate::BaseDashboard
+  ATTRIBUTE_TYPES = {
+    id: Field::Number,
+    name: Field::String.with_options(export: true),
+    description: Field::Text,
+...
+```
+
+By default the gem, already adds the export button to the view `views/admin/application/index.html.erb`. But if you have your own administrate `index` views, you can use the helper `export_button`, to display the button.
 
 Example:
 

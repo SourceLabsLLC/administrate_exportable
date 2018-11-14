@@ -23,7 +23,7 @@ module AdministrateExportable
         csv << headers
 
         collection.find_each do |record|
-          csv << attributes.map { |attribute| record_attribute(record, attribute) }
+          csv << attributes_to_export.map { |attribute| record_attribute(record, attribute) }
         end
       end
     end
@@ -33,7 +33,7 @@ module AdministrateExportable
     attr_reader :dashboard, :resource_class
 
     def record_attribute(record, attribute)
-      case dashboard.class::ATTRIBUTE_TYPES[attribute].to_s
+      case dashboard.class::ATTRIBUTE_TYPES[attribute].deferred_class.to_s
       when Administrate::Field::HasMany.to_s
         record.public_send(attribute).count
       when Administrate::Field::BelongsTo.to_s, Administrate::Field::HasOne.to_s
@@ -54,7 +54,7 @@ module AdministrateExportable
     end
 
     def headers
-      dashboard.class::COLLECTION_ATTRIBUTES.map do |attribute|
+      attributes_to_export.map do |attribute|
         I18n.t(
           "helpers.label.#{resource_class.name}.#{attribute}",
           default: attribute.to_s,
@@ -62,8 +62,14 @@ module AdministrateExportable
       end
     end
 
-    def attributes
-      dashboard.class::COLLECTION_ATTRIBUTES
+    def attributes_to_export
+      @attributes_to_export ||= begin
+        dashboard.class::ATTRIBUTE_TYPES.map do |attribute_key, attribute_type|
+          if attribute_type.respond_to?(:options) && attribute_type.options[:export]
+            attribute_key
+          end
+        end.compact
+      end
     end
 
     def collection
