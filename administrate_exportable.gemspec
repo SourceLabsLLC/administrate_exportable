@@ -34,5 +34,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_dependency 'administrate'
+  spec.add_dependency 'administrate-field-enumerate'
   spec.add_dependency 'rails', '>= 4.2', '< 6.0'
 end
