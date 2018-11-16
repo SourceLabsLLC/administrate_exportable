@@ -9,3 +9,12 @@
 
 # rspec failure tracking
 .rspec_status
+
+
+# Ignore the default SQLite database.
+spec/dummy/db/*.sqlite3
+spec/dummy/db/*.sqlite3-journal
+
+# Ignore all logfiles and tempfiles.
+spec/dummy/log/*
+spec/dummy/tmp/*

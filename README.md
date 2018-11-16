@@ -1,9 +1,3 @@
-# AdministrateExportable
-
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/administrate_exportable`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -22,7 +16,58 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+For each resource you want to be exportable, add the following line the their respective Administrate controller.
+```ruby
+include AdministrateExportable::Exporter
+```
+and the following line on the `routes` file, correctly nested on resources
+```ruby
+get :export, on: :collection
+```
+
+Example:
+```ruby
+namespace :admin do
+  resources :organizations do
+    get :export, on: :collection
+  end
+....
+```
+
+By default all the attributes from `ATTRIBUTE_TYPES`, will be exported. If you want to filter something out, you can use the option: `export: false`.
+
+Example:
+```ruby
+class BusinessDashboard < Administrate::BaseDashboard
+  ATTRIBUTE_TYPES = {
+    id: Field::Number.with_options(export: false),
+    name: Field::String,
+    description: Field::Text,
+...
+```
+
+By default the gem, already adds the export button to the view `views/admin/application/index.html.erb`. But if you have your own administrate `index` views, you will need to add the link manually:
+```ruby
+ link_to 'Export', [:export, namespace, page.resource_path], class: 'button'
+```
+
+Example:
+
+```rails
+....
+ <div>
+    <%= link_to(
+      t(
+        "administrate.actions.new_resource",
+        name: page.resource_name.titleize.downcase
+      ),
+      [:new, namespace, page.resource_path],
+      class: "button",
+    ) if valid_action?(:new) && show_action?(:new, new_resource) %>
+    <%= link_to 'Export', [:export, namespace, page.resource_path], class: 'button' %>
+  </div>
+....
+```
 
 ## Development
 

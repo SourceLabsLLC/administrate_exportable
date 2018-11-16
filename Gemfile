@@ -2,5 +2,4 @@ source "https://rubygems.org"
 
 git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
-# Specify your gem's dependencies in administrate_exportable.gemspec
-gemspec
+eval_gemfile File.join(File.dirname(__FILE__), "spec/dummy/Gemfile")
