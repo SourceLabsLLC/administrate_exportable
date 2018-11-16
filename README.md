@@ -34,14 +34,14 @@ namespace :admin do
 ....
 ```
 
-To specify which attribute will be exported, just pass the option `export: true`, to the attribute on the dashboard.
+By default all the attributes from `ATTRIBUTE_TYPES`, will be exported. If you want to filter something out, you can use the option: `export: false`.
 
 Example:
 ```ruby
 class BusinessDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
-    id: Field::Number,
-    name: Field::String.with_options(export: true),
+    id: Field::Number.with_options(export: false),
+    name: Field::String,
     description: Field::Text,
 ...
 ```

@@ -9,11 +9,11 @@ class DogDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     id: Field::Number,
-    user: Field::BelongsTo.with_options(export: true),
-    user_id: Field::Number.with_options(export: true),
-    name: Field::String.with_options(export: true),
-    created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+    user: Field::BelongsTo,
+    user_id: Field::Number,
+    name: Field::String,
+    created_at: Field::DateTime.with_options(export: false),
+    updated_at: Field::DateTime.with_options(export: false),
   }.freeze
 
   # COLLECTION_ATTRIBUTES

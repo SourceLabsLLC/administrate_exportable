@@ -8,12 +8,12 @@ class UserDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    id: Field::Number.with_options(export: true),
-    first_name: Field::String.with_options(export: true),
-    last_name: Field::String.with_options(export: true),
-    dogs: Field::HasMany.with_options(export: true),
-    created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+    id: Field::Number,
+    first_name: Field::String,
+    last_name: Field::String,
+    dogs: Field::HasMany,
+    created_at: Field::DateTime.with_options(export: false),
+    updated_at: Field::DateTime.with_options(export: false),
   }.freeze
 
   # COLLECTION_ATTRIBUTES

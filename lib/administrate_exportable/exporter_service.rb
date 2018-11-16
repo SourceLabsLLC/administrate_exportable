@@ -26,7 +26,7 @@ module AdministrateExportable
     attr_reader :dashboard, :resource_class
 
     def record_attribute(record, attribute)
-      case dashboard.class::ATTRIBUTE_TYPES[attribute].deferred_class.to_s
+      case dashboard.class::ATTRIBUTE_TYPES[attribute].to_s
       when Administrate::Field::HasMany.to_s
         record.public_send(attribute).count
       when Administrate::Field::BelongsTo.to_s, Administrate::Field::HasOne.to_s
@@ -47,12 +47,14 @@ module AdministrateExportable
     end
 
     def headers
-      attributes_to_export.map do |attribute|
-        return attribute.to_s if attribute.to_s.include?('_id')
+      attributes_to_export.map do |attribute_key, _|
+        attribute_key = attribute_key.to_s
+
+        return attribute_key if attribute_key.include?('_id')
 
         I18n.t(
-          "helpers.label.#{resource_class.name}.#{attribute}",
-          default: attribute.to_s,
+          "helpers.label.#{resource_class.name}.#{attribute_key}",
+          default: attribute_key,
         ).titleize
       end
     end
@@ -60,7 +62,9 @@ module AdministrateExportable
     def attributes_to_export
       @attributes_to_export ||= begin
         dashboard.class::ATTRIBUTE_TYPES.map do |attribute_key, attribute_type|
-          if attribute_type.respond_to?(:options) && attribute_type.options[:export]
+          attribute_options = attribute_type.try(:options)
+
+          if !attribute_options || attribute_options[:export]
             attribute_key
           end
         end.compact
