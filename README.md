@@ -16,11 +16,6 @@ Or install it yourself as:
 
 ## Usage
 
-Add to your `Admin::ApplicationController` the following line.
-```ruby
- helper AdministrateExportable::ExporterHelper
-```
-
 For each resource you want to be exportable, add the following line the their respective Administrate controller.
 ```ruby
 include AdministrateExportable::Exporter
@@ -51,7 +46,10 @@ class BusinessDashboard < Administrate::BaseDashboard
 ...
 ```
 
-By default the gem, already adds the export button to the view `views/admin/application/index.html.erb`. But if you have your own administrate `index` views, you can use the helper `export_button`, to display the button.
+By default the gem, already adds the export button to the view `views/admin/application/index.html.erb`. But if you have your own administrate `index` views, you will need to add the link manually:
+```ruby
+ link_to 'Export', [:export, namespace, page.resource_path], class: 'button'
+```
 
 Example:
 
