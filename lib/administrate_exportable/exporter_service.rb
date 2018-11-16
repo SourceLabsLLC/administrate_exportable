@@ -9,6 +9,7 @@ module AdministrateExportable
     def initialize(dashboard, resource_class)
       @dashboard = dashboard
       @resource_class = resource_class
+      @sanitizer = Rails::Html::FullSanitizer.new
     end
 
     def csv
@@ -25,7 +26,7 @@ module AdministrateExportable
 
     private
 
-    attr_reader :dashboard, :resource_class
+    attr_reader :dashboard, :resource_class, :sanitizer
 
     def record_attribute(record, attribute_key, attribute_type)
       field = attribute_type.new(attribute_key, record.send(attribute_key), 'index')
@@ -34,8 +35,6 @@ module AdministrateExportable
         partial: field.to_partial_path,
         locals: { field: field }
       )
-
-      sanitizer = Rails::Html::FullSanitizer.new
 
       sanitizer.sanitize(view_string.gsub!(/\n/, ''))
     end

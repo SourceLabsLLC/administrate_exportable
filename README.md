@@ -64,7 +64,7 @@ Example:
       [:new, namespace, page.resource_path],
       class: "button",
     ) if valid_action?(:new) && show_action?(:new, new_resource) %>
-    <%= export_button %>
+    <%= link_to 'Export', [:export, namespace, page.resource_path], class: 'button' %>
   </div>
 ....
 ```
