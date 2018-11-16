@@ -16,7 +16,9 @@ module AdministrateExportable
         csv << headers
 
         collection.find_each do |record|
-          csv << attributes_to_export.map { |attribute| record_attribute(record, attribute) }
+          csv << attributes_to_export.map do |attribute_key, attribute_type|
+            record_attribute(record, attribute_key, attribute_type)
+          end
         end
       end
     end
@@ -25,25 +27,17 @@ module AdministrateExportable
 
     attr_reader :dashboard, :resource_class
 
-    def record_attribute(record, attribute)
-      case dashboard.class::ATTRIBUTE_TYPES[attribute].to_s
-      when Administrate::Field::HasMany.to_s
-        record.public_send(attribute).count
-      when Administrate::Field::BelongsTo.to_s, Administrate::Field::HasOne.to_s
-        attribute_record = record.public_send(attribute)
+    def record_attribute(record, attribute_key, attribute_type)
+      field = attribute_type.new(attribute_key, record.send(attribute_key), 'index')
 
-        return unless attribute_record
+      view_string = ApplicationController.render(
+        partial: field.to_partial_path,
+        locals: { field: field }
+      )
 
-        attribute_dashboard(attribute).display_resource(attribute_record)
-      when Administrate::Field::Enumerate.to_s
-        record.public_send("#{attribute}_humanize")
-      else
-        record.public_send(attribute)
-      end
-    end
+      sanitizer = Rails::Html::FullSanitizer.new
 
-    def attribute_dashboard(attribute)
-      "#{attribute.to_s.camelize}Dashboard".constantize.new
+      sanitizer.sanitize(view_string.gsub!(/\n/, ''))
     end
 
     def headers
@@ -61,13 +55,11 @@ module AdministrateExportable
 
     def attributes_to_export
       @attributes_to_export ||= begin
-        dashboard.class::ATTRIBUTE_TYPES.map do |attribute_key, attribute_type|
+        dashboard.class::ATTRIBUTE_TYPES.select do |attribute_key, attribute_type|
           attribute_options = attribute_type.try(:options)
 
-          if !attribute_options || attribute_options[:export]
-            attribute_key
-          end
-        end.compact
+          !attribute_options || attribute_options[:export]
+        end
       end
     end
 
