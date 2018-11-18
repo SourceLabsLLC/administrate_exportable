@@ -4,7 +4,7 @@ RSpec.describe AdministrateExportable::ExporterService, type: :helper do
   describe '#csv' do
     it 'generates correct header' do
       user = User.create(first_name: 'John', last_name: 'Doe')
-      Dog.create(name: 'Wolf', user: user)
+      user.dogs.create(name: 'Wolf')
 
       result = AdministrateExportable::ExporterService.csv(UserDashboard.new, User)
       header = result.split("\n").first
@@ -14,12 +14,12 @@ RSpec.describe AdministrateExportable::ExporterService, type: :helper do
 
     it 'exports correct data' do
       user = User.create(first_name: 'John', last_name: 'Doe')
-      Dog.create(name: 'Wolf', user: user)
+      user.dogs.create(name: 'Wolf')
 
       result = AdministrateExportable::ExporterService.csv(UserDashboard.new, User)
       data = result.split("\n").last
 
-      expect(data).to eq '2,John,Doe,1'
+      expect(data).to eq '2,John,Doe,1 dog'
     end
   end
 end

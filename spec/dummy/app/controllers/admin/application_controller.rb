@@ -6,6 +6,5 @@
 # you're free to overwrite the RESTful controller actions.
 module Admin
   class ApplicationController < Administrate::ApplicationController
-    helper AdministrateExportable::ExporterHelper
   end
 end

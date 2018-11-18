@@ -7,7 +7,7 @@ gem 'rails', '~> 5.2.1'
 gem 'sqlite3'
 gem 'administrate'
 gem 'administrate-field-enumerate'
-gem 'administrate_exportable', path: File.expand_path("../../../..", __FILE__)
+gem 'administrate_exportable', path: File.path('../../')
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

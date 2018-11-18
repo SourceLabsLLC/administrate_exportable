@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Jônatas Rancan", "Andrei Bondarev"]
   spec.email         = ["hello@sourcelabs.io"]
   spec.homepage         = 'https://github.com/SourceLabsLLC/administrate_exportable'
-  spec.summary       = "Simple plugin to add csv export feature to Adminstrate"
+  spec.summary       = "Simple plugin to add CSV export feature to Administrate"
   spec.description   = spec.summary
   spec.license       = "MIT"
 

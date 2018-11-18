@@ -14,6 +14,7 @@ module AdministrateExportable
 
     def csv
       CSV.generate(headers: true) do |csv|
+
         csv << headers
 
         collection.find_each do |record|
@@ -31,7 +32,8 @@ module AdministrateExportable
     def record_attribute(record, attribute_key, attribute_type)
       field = attribute_type.new(attribute_key, record.send(attribute_key), 'index')
 
-      view_string = ApplicationController.render(
+      # TODO Speed this up or figure out a better approach
+      view_string = Administrate::ApplicationController.render(
         partial: field.to_partial_path,
         locals: { field: field }
       )
@@ -41,14 +43,16 @@ module AdministrateExportable
 
     def headers
       attributes_to_export.map do |attribute_key, _|
-        attribute_key = attribute_key.to_s
+        attr_key = attribute_key.to_s
 
-        return attribute_key if attribute_key.include?('_id')
-
-        I18n.t(
-          "helpers.label.#{resource_class.name}.#{attribute_key}",
-          default: attribute_key,
-        ).titleize
+        if attr_key.include?('_id')
+          attr_key
+        else
+          I18n.t(
+            "helpers.label.#{resource_class.name}.#{attr_key}",
+            default: attr_key,
+          ).titleize
+        end
       end
     end
 
