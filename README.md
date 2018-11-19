@@ -16,11 +16,11 @@ Or install it yourself as:
 
 ## Usage
 
-For each resource you want to be exportable, add the following line the their respective Administrate controller.
+For each resource you want to be exportable, add the following line to the their respective Administrate controller.
 ```ruby
 include AdministrateExportable::Exporter
 ```
-and the following line on the `routes` file, correctly nested on resources
+and the following line in the `db/routes.rb` file, correctly nested on resources
 ```ruby
 get :export, on: :collection
 ```
@@ -34,7 +34,7 @@ namespace :admin do
 ....
 ```
 
-By default all the attributes from `ATTRIBUTE_TYPES`, will be exported. If you want to filter something out, you can use the option: `export: false`.
+By default all the attributes from `ATTRIBUTE_TYPES` will be exported. If you want to exclude an attribute, you can use the option: `export: false`.
 
 Example:
 ```ruby
@@ -46,7 +46,7 @@ class BusinessDashboard < Administrate::BaseDashboard
 ...
 ```
 
-By default the gem, already adds the export button to the view `views/admin/application/index.html.erb`. But if you have your own administrate `index` views, you will need to add the link manually:
+By default the gem adds the Export button to the view `views/admin/application/index.html.erb`. But if you have your own Administrate `index` views, you can add the link manually:
 ```ruby
  link_to 'Export', [:export, namespace, page.resource_path], class: 'button'
 ```
@@ -77,7 +77,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/administrate_exportable.
+Bug reports and pull requests are welcome on GitHub at https://github.com/SourceLabsLLC/administrate_exportable.
 
 ## License
 

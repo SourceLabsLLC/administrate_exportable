@@ -1,10 +1,6 @@
 PATH
-  remote: /home/jonatas/projetos/codeminer/sourcelabs
+  remote: .
   specs:
-    administrate-field-enumerate (0.0.1)
-      administrate
-      enumerate_it
-      rails (>= 4.2, < 6.0)
     administrate_exportable (0.1.0)
       administrate
       rails (>= 4.2, < 6.0)
@@ -64,6 +60,10 @@ GEM
       momentjs-rails (~> 2.8)
       sass-rails (~> 5.0)
       selectize-rails (~> 0.6)
+    administrate-field-enumerate (0.0.1)
+      administrate
+      enumerate_it
+      rails (>= 4.2, < 6.0)
     arel (9.0.0)
     autoprefixer-rails (9.3.1)
       execjs
@@ -217,4 +217,4 @@ RUBY VERSION
    ruby 2.4.2p198
 
 BUNDLED WITH
-   1.16.0
+   1.17.1
