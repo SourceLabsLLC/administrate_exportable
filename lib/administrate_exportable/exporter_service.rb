@@ -2,19 +2,19 @@ require 'csv'
 
 module AdministrateExportable
   class ExporterService
-    def self.csv(dashboard, resource_class)
-      new(dashboard, resource_class).csv
+    def self.csv(dashboard, resource_class, controller_instance)
+      new(dashboard, resource_class, controller_instance).csv
     end
 
-    def initialize(dashboard, resource_class)
+    def initialize(dashboard, resource_class, controller_instance)
       @dashboard = dashboard
       @resource_class = resource_class
       @sanitizer = Rails::Html::FullSanitizer.new
+      @controller_instance = controller_instance
     end
 
     def csv
       CSV.generate(headers: true) do |csv|
-
         csv << headers
 
         collection.find_each do |record|
@@ -27,14 +27,16 @@ module AdministrateExportable
 
     private
 
-    attr_reader :dashboard, :resource_class, :sanitizer
+    attr_reader :dashboard, :resource_class, :sanitizer, :controller_instance
 
     def record_attribute(record, attribute_key, attribute_type)
-      field = attribute_type.new(attribute_key, record.send(attribute_key), 'index')
+      field = attribute_type.new(attribute_key, record.send(attribute_key), 'index', resource: record)
 
-      # TODO Speed this up or figure out a better approach
-      view_string = Admin::ApplicationController.render(
+      # Used this insted of Admin::ApplicationController.render
+      # to improve speed of render
+      view_string = controller_instance.render_to_string(
         partial: field.to_partial_path,
+        formats: [:html],
         locals: { field: field }
       )
 

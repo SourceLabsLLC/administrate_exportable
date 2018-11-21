@@ -3,7 +3,11 @@ require 'rails_helper'
 RSpec.describe AdministrateExportable::ExporterService, type: :helper do
   describe '#csv' do
     it 'generates correct header' do
-      result = AdministrateExportable::ExporterService.csv(UserDashboard.new, User)
+      result = AdministrateExportable::ExporterService.csv(
+        UserDashboard.new,
+        User,
+        Admin::UsersController.new
+      )
       header = result.split("\n").first
 
       expect(header).to eq 'Id,First Name,Last Name,Dogs,Cat'
@@ -14,7 +18,11 @@ RSpec.describe AdministrateExportable::ExporterService, type: :helper do
       user.dogs.create(name: 'Wolf')
       user.create_cat(name: 'Black Panther')
 
-      result = AdministrateExportable::ExporterService.csv(UserDashboard.new, User)
+      result = AdministrateExportable::ExporterService.csv(
+        UserDashboard.new,
+        User,
+        Admin::UsersController.new
+      )
       data = result.split("\n").last
 
       expect(data).to eq '1,John,Doe,1 dog,  Cat #1'

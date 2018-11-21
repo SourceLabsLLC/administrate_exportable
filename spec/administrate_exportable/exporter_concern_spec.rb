@@ -10,7 +10,7 @@ RSpec.describe 'Exporter Concern', type: :request do
 
     it 'calls ExporterService' do
       expect(AdministrateExportable::ExporterService).to receive(:csv)
-        .with(an_instance_of(UserDashboard), User)
+        .with(an_instance_of(UserDashboard), User, an_instance_of(Admin::UsersController))
 
       get export_admin_users_url(format: :csv)
     end

@@ -6,5 +6,8 @@
 # you're free to overwrite the RESTful controller actions.
 module Admin
   class ApplicationController < Administrate::ApplicationController
+    def url_options
+      { host: 'dummy.app.com' }
+    end
   end
 end
