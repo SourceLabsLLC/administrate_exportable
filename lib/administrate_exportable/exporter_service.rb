@@ -33,7 +33,7 @@ module AdministrateExportable
       field = attribute_type.new(attribute_key, record.send(attribute_key), 'index')
 
       # TODO Speed this up or figure out a better approach
-      view_string = Administrate::ApplicationController.render(
+      view_string = Admin::ApplicationController.render(
         partial: field.to_partial_path,
         locals: { field: field }
       )
