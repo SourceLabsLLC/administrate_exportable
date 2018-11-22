@@ -9,7 +9,6 @@ module AdministrateExportable
     def initialize(dashboard, resource_class)
       @dashboard = dashboard
       @resource_class = resource_class
-      @sanitizer = Rails::Html::FullSanitizer.new
     end
 
     def csv
@@ -30,15 +29,29 @@ module AdministrateExportable
     attr_reader :dashboard, :resource_class, :sanitizer
 
     def record_attribute(record, attribute_key, attribute_type)
-      field = attribute_type.new(attribute_key, record.send(attribute_key), 'index')
+      field = attribute_type.new(attribute_key, record.send(attribute_key), 'index', resource: record)
+      transform_on_export = attribute_type.respond_to?(:options) && attribute_type.options[:transform_on_export]
 
-      # TODO Speed this up or figure out a better approach
-      view_string = Admin::ApplicationController.render(
-        partial: field.to_partial_path,
-        locals: { field: field }
-      )
+      if transform_on_export.is_a? Proc
+        return transform_on_export.call(field)
+      end
 
-      sanitizer.sanitize(view_string.gsub!(/\n/, ''))
+      case field.class.to_s
+      when Administrate::Field::BelongsTo.to_s, Administrate::Field::HasOne.to_s, Administrate::Field::Polymorphic.to_s
+        field.display_associated_resource if field.data
+      when Administrate::Field::HasMany.to_s
+        field.data.count if field.data
+      when Administrate::Field::DateTime.to_s
+        field.datetime if field.data
+      when Administrate::Field::Email.to_s, Administrate::Field::Select.to_s
+        field.data
+      when Administrate::Field::Password.to_s, Administrate::Field::String.to_s, Administrate::Field::Text.to_s
+        field.truncate
+      when Administrate::Field::Time.to_s
+        field.data.strftime("%I:%M%p").to_s if field.data
+      else
+        field.to_s
+      end
     end
 
     def headers
@@ -61,7 +74,7 @@ module AdministrateExportable
         dashboard.class::ATTRIBUTE_TYPES.select do |attribute_key, attribute_type|
           attribute_options = attribute_type.try(:options)
 
-          !attribute_options || attribute_options[:export]
+          !attribute_options || attribute_options[:export] != false
         end
       end
     end
