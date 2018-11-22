@@ -13,7 +13,7 @@ class UserDashboard < Administrate::BaseDashboard
     last_name: Field::String,
     dogs: Field::HasMany,
     cat: Field::HasOne,
-    created_at: Field::DateTime.with_options(export: false),
+    created_at: Field::DateTime.with_options(transform_on_export: -> (field) { field.data.strftime("%F") }),
     updated_at: Field::DateTime.with_options(export: false),
   }.freeze
 

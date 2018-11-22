@@ -46,6 +46,14 @@ class BusinessDashboard < Administrate::BaseDashboard
 ...
 ```
 
+For the default field types from Administrate, we export the values you got from the partial `views/fields/index`. And if it is a custom field, we just run `field.to_s`.
+But if you want to specify the value to be exported, you can use the option `transform_on_export`, to pass a `Proc` that receives the `field`.
+Example:
+```ruby
+ATTRIBUTE_TYPES = {
+ created_at: Field::DateTime.with_options(transform_on_export: -> (field) { field.data.strftime("%F") })
+```
+
 By default the gem adds the Export button to the view `views/admin/application/index.html.erb`. But if you have your own Administrate `index` views, you can add the link manually:
 ```ruby
  link_to 'Export', [:export, namespace, page.resource_path], class: 'button'
