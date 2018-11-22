@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     administrate_exportable (0.1.0)
-      administrate
+      administrate (> 0.10.0)
       rails (>= 4.2, < 6.0)
 
 GEM
