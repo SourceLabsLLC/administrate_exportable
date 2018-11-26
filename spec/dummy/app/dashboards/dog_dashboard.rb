@@ -12,6 +12,7 @@ class DogDashboard < Administrate::BaseDashboard
     user: Field::BelongsTo,
     user_id: Field::Number,
     name: Field::String,
+    walk_time: Field::Time,
     created_at: Field::DateTime.with_options(export: false),
     updated_at: Field::DateTime.with_options(export: false),
   }.freeze
@@ -25,6 +26,7 @@ class DogDashboard < Administrate::BaseDashboard
     :user,
     :id,
     :name,
+    :walk_time,
     :created_at,
   ].freeze
 
@@ -34,6 +36,7 @@ class DogDashboard < Administrate::BaseDashboard
     :user,
     :id,
     :name,
+    :walk_time,
     :created_at,
     :updated_at,
   ].freeze
@@ -44,6 +47,7 @@ class DogDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = [
     :user,
     :name,
+    :walk_time
   ].freeze
 
   # Overwrite this method to customize how dogs are displayed
