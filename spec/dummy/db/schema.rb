@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_18_143958) do
+ActiveRecord::Schema.define(version: 2018_11_26_131314) do
 
   create_table "cats", force: :cascade do |t|
     t.integer "user_id"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 2018_11_18_143958) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "walk_time"
     t.index ["user_id"], name: "index_dogs_on_user_id"
   end
 
@@ -33,6 +34,8 @@ ActiveRecord::Schema.define(version: 2018_11_18_143958) do
     t.string "last_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "email"
+    t.string "password"
   end
 
 end

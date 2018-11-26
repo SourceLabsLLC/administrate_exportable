@@ -3,5 +3,7 @@ Rails.application.routes.draw do
     resources :users, :dogs, :cats do
       get :export, on: :collection
     end
+
+    root to: "users#index"
   end
 end

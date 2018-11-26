@@ -13,8 +13,10 @@ class UserDashboard < Administrate::BaseDashboard
     last_name: Field::String,
     dogs: Field::HasMany,
     cat: Field::HasOne,
+    email: Field::Email,
+    password: Field::Password,
     created_at: Field::DateTime.with_options(transform_on_export: -> (field) { field.data.strftime("%F") }),
-    updated_at: Field::DateTime.with_options(export: false),
+    updated_at: Field::DateTime,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -26,6 +28,7 @@ class UserDashboard < Administrate::BaseDashboard
     :id,
     :first_name,
     :last_name,
+    :email,
     :created_at,
   ].freeze
 
@@ -35,6 +38,7 @@ class UserDashboard < Administrate::BaseDashboard
     :id,
     :first_name,
     :last_name,
+    :email,
     :created_at,
     :updated_at,
   ].freeze
@@ -45,6 +49,8 @@ class UserDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = [
     :first_name,
     :last_name,
+    :email,
+    :password,
   ].freeze
 
   # Overwrite this method to customize how users are displayed
