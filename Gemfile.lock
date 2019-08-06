@@ -156,6 +156,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
+    rb-readline (0.5.5)
     rspec-core (3.8.2)
       rspec-support (~> 3.8.0)
     rspec-expectations (3.8.4)
@@ -211,7 +212,8 @@ DEPENDENCIES
   administrate_exportable!
   byebug
   pry-byebug
-  rails (~> 5.2.1)
+  rails (~> 5.2.3)
+  rb-readline
   rspec-rails (~> 3.8)
   sqlite3
 

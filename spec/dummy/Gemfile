@@ -10,6 +10,7 @@ gem 'administrate-field-enumerate'
 gem 'administrate_exportable', path: File.path('../../')
 
 group :development, :test do
+  gem 'rb-readline'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails', '~> 3.8'
   gem 'pry-byebug'
