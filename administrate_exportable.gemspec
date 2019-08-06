@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = AdministrateExportable::VERSION
   spec.authors       = ["Jônatas Rancan", "Andrei Bondarev"]
   spec.email         = ["hello@sourcelabs.io"]
-  spec.homepage         = 'https://github.com/SourceLabsLLC/administrate_exportable'
+  spec.homepage      = 'https://github.com/SourceLabsLLC/administrate_exportable'
   spec.summary       = "Simple plugin to add CSV export feature to Administrate"
   spec.description   = spec.summary
   spec.license       = "MIT"
@@ -33,5 +33,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_dependency 'administrate','> 0.10.0'
-  spec.add_dependency 'rails', '>= 4.2', '< 6.0'
+  spec.add_dependency 'rails', '>= 4.2'
 end
