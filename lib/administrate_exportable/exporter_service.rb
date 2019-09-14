@@ -81,7 +81,7 @@ module AdministrateExportable
 
     def collection
       relation = resource_class.default_scoped
-      resource_includes = dashboard.association_includes
+      resource_includes = dashboard.collection_includes
 
       return relation if resource_includes.empty?
 
