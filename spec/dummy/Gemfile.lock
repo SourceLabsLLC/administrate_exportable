@@ -117,7 +117,7 @@ GEM
     momentjs-rails (2.20.1)
       railties (>= 3.1)
     nio4r (2.4.0)
-    nokogiri (1.10.3)
+    nokogiri (1.10.4)
       mini_portile2 (~> 2.4.0)
     pry (0.12.2)
       coderay (~> 1.1.0)
