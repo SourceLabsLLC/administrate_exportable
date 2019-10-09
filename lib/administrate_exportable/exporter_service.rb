@@ -2,13 +2,14 @@ require 'csv'
 
 module AdministrateExportable
   class ExporterService
-    def self.csv(dashboard, resource_class)
-      new(dashboard, resource_class).csv
+    def self.csv(dashboard, resource_class, resources)
+      new(dashboard, resource_class, resources).csv
     end
 
-    def initialize(dashboard, resource_class)
+    def initialize(dashboard, resource_class, resources)
       @dashboard = dashboard
       @resource_class = resource_class
+      @resources = resources
     end
 
     def csv
@@ -26,7 +27,7 @@ module AdministrateExportable
 
     private
 
-    attr_reader :dashboard, :resource_class, :sanitizer
+    attr_reader :dashboard, :resource_class, :resources, :sanitizer
 
     def record_attribute(record, attribute_key, attribute_type)
       field = attribute_type.new(attribute_key, record.send(attribute_key), 'index', resource: record)
@@ -80,12 +81,7 @@ module AdministrateExportable
     end
 
     def collection
-      relation = resource_class.default_scoped
-      resource_includes = dashboard.collection_includes
-
-      return relation if resource_includes.empty?
-
-      relation.includes(*resource_includes)
+      resources
     end
   end
 end

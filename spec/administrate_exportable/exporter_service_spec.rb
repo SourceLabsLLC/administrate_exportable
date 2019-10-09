@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AdministrateExportable::ExporterService, type: :helper do
   describe '#csv' do
-    let(:result) { AdministrateExportable::ExporterService.csv(UserDashboard.new, User) }
+    let(:result) { AdministrateExportable::ExporterService.csv(UserDashboard.new, User, User.all) }
     let(:exported_data) { result.split("\n").last.split(',') }
 
     before do
@@ -77,7 +77,7 @@ RSpec.describe AdministrateExportable::ExporterService, type: :helper do
     end
 
     context 'exporting Field::BelongsTo' do
-      let(:result) { AdministrateExportable::ExporterService.csv(CatDashboard.new, Cat) }
+      let(:result) { AdministrateExportable::ExporterService.csv(CatDashboard.new, Cat, Cat.all) }
 
       it 'exports correct data' do
         expect(exported_data[0]).to eq 'John Doe'
@@ -85,7 +85,7 @@ RSpec.describe AdministrateExportable::ExporterService, type: :helper do
     end
 
     context 'exporting foreign key as a Field::Number' do
-      let(:result) { AdministrateExportable::ExporterService.csv(DogDashboard.new, Dog) }
+      let(:result) { AdministrateExportable::ExporterService.csv(DogDashboard.new, Dog, Dog.all) }
 
       it "exports header values with sufix '_id'" do
         header = result.split("\n").first.split(',')
@@ -99,7 +99,7 @@ RSpec.describe AdministrateExportable::ExporterService, type: :helper do
     end
 
     context 'exporting Field::Time' do
-      let(:result) { AdministrateExportable::ExporterService.csv(DogDashboard.new, Dog) }
+      let(:result) { AdministrateExportable::ExporterService.csv(DogDashboard.new, Dog, Dog.all) }
 
       it 'exports correct data' do
         expect(exported_data[4]).to eq '04:05AM'
