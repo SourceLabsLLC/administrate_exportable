@@ -20,7 +20,7 @@ For each resource you want to be exportable, add the following line to the their
 ```ruby
 include AdministrateExportable::Exporter
 ```
-and the following line in the `db/routes.rb` file, correctly nested on resources
+and the following line in the `config/routes.rb` file, correctly nested on resources
 ```ruby
 get :export, on: :collection
 ```
