@@ -17,6 +17,7 @@ class UserDashboard < Administrate::BaseDashboard
     password: Field::Password,
     created_at: Field::DateTime.with_options(transform_on_export: -> (field) { field.data.strftime("%F") }),
     updated_at: Field::DateTime,
+    birthdate: Field::Date,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
