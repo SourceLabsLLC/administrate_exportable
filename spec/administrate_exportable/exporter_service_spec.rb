@@ -6,7 +6,7 @@ RSpec.describe AdministrateExportable::ExporterService, type: :helper do
     let(:exported_data) { result.split("\n").last.split(',') }
 
     before do
-      user = User.create(first_name: 'John', last_name: 'Doe', email: 'john@email.com', password: '1234567891011213')
+      user = User.create(first_name: 'John', last_name: 'Doe', email: 'john@email.com', password: '1234567891011213', birthdate: "1990-01-15")
       user.dogs.create(name: 'Wolf', walk_time: DateTime.new(2018,2,3,4,5))
       user.create_cat(name: 'Black Panther')
     end
@@ -14,7 +14,7 @@ RSpec.describe AdministrateExportable::ExporterService, type: :helper do
     it 'generates correct header' do
       header = result.split("\n").first
 
-      expect(header).to eq 'Id,First Name,Last Name,Dogs,Cat,Email,Password,Created At,Updated At'
+      expect(header).to eq 'Id,First Name,Last Name,Dogs,Cat,Email,Password,Created At,Updated At,Birthdate'
     end
 
     context 'exporting Field::Number' do
@@ -58,6 +58,12 @@ RSpec.describe AdministrateExportable::ExporterService, type: :helper do
     context 'exporting Field::Password' do
       it 'exports correct data' do
         expect(exported_data[6]).to eq '••••••••••••••••'
+      end
+    end
+
+    context 'exporting Field::Date' do
+      it 'exports correct data' do
+        expect(exported_data[9]).to eq("1990-01-15")
       end
     end
 
