@@ -1,9 +1,9 @@
 PATH
   remote: .
   specs:
-    administrate_exportable (0.3.0)
+    administrate_exportable (0.3.1)
       actionview (>= 5.2.2.1)
-      administrate (>= 0.12.0)
+      administrate (>= 0.13.0)
       rails (>= 4.2)
       railties (>= 5.2.2.1)
 
