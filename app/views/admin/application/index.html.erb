@@ -48,7 +48,8 @@ It renders the `_table` partial to display details about the resources.
     <%= link_to(
       'Export',
       [:export, namespace, page.resource_name.to_s.pluralize, sanitized_order_params(page, :id).to_h.merge(format: :csv)],
-      class: 'button'
+      class: 'button',
+      target: '_blank'
     ) if valid_action?(:export) && show_action?(:export, resource_name) %>
   </div>
 </header>
