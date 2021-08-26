@@ -44,6 +44,8 @@ module AdministrateExportable
         field.data.count if field.data
       when Administrate::Field::DateTime.to_s
         field.datetime if field.data
+      when Administrate::Field::Date.to_s
+        field.date if field.data
       when Administrate::Field::Email.to_s, Administrate::Field::Select.to_s
         field.data
       when Administrate::Field::Password.to_s, Administrate::Field::String.to_s, Administrate::Field::Text.to_s

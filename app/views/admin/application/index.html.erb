@@ -42,12 +42,12 @@ It renders the `_table` partial to display details about the resources.
         "administrate.actions.new_resource",
         name: page.resource_name.titleize.downcase
       ),
-      [:new, namespace, page.resource_path],
+      [:new, namespace, page.resource_path.to_sym],
       class: "button",
     ) if valid_action?(:new) && show_action?(:new, new_resource) %>
     <%= link_to(
       'Export',
-      [:export, namespace, page.resource_name.to_s.pluralize, sanitized_order_params(page, :id).to_h.merge(format: :csv)],
+      [:export, namespace, page.resource_name.to_s.pluralize.to_sym, sanitized_order_params(page, :id).to_h.merge(format: :csv)],
       class: 'button',
       target: '_blank'
     ) if valid_action?(:export) && show_action?(:export, resource_name) %>
@@ -64,5 +64,5 @@ It renders the `_table` partial to display details about the resources.
     table_title: "page-title"
   ) %>
 
-  <%= paginate resources %>
+  <%= paginate resources, param_name: AdministrateExportable::PAGE_PARAM %>
 </section>
