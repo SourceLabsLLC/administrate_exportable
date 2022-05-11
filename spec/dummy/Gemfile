@@ -5,7 +5,7 @@ ruby '2.7.2'
 
 gem 'rails', '~> 5.2.3'
 gem 'sqlite3'
-gem 'administrate', '~> 0.13.0'
+gem 'administrate', '~> 0.17.0'
 gem 'administrate-field-enumerate'
 gem 'administrate_exportable', path: File.path('../../')
 
