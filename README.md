@@ -56,7 +56,7 @@ ATTRIBUTE_TYPES = {
 
 By default the gem adds the Export button to the view `views/admin/application/index.html.erb`. But if you have your own Administrate `index` views, you can add the link manually:
 ```ruby
-link_to('Export', [:export, namespace, page.resource_name.to_s.pluralize, sanitized_order_params(page, :id).to_h.merge(format: :csv)], class: 'button') if valid_action?(:export)
+link_to('Export', [:export, namespace.to_sym, page.resource_name.to_s.pluralize.to_sym, sanitized_order_params(page, :id).to_h.merge(format: :csv)], class: 'button') if valid_action?(:export)
 ```
 
 Example:
@@ -69,15 +69,15 @@ Example:
         "administrate.actions.new_resource",
         name: page.resource_name.titleize.downcase
       ),
-      [:new, namespace, page.resource_path],
+      [:new, namespace.to_sym, page.resource_path.to_sym],
       class: "button",
     ) if valid_action?(:new) && show_action?(:new, new_resource) %>
 
     <%= link_to(
       'Export',
-      [:export, namespace, page.resource_name.to_s.pluralize, sanitized_order_params(page, :id).to_h.merge(format: :csv)],
+      [:export, namespace.to_sym, page.resource_name.to_s.pluralize.to_sym, sanitized_order_params(page, :id).to_h.merge(format: :csv)],
       class: 'button'
-    ) if valid_action?(:export) %>
+    ) if valid_action?(:export) %>    
   </div>
 ....
 ```
