@@ -64,8 +64,8 @@ module AdministrateExportable
         if attr_key.include?('_id')
           attr_key
         else
-          I18n.t(
-            "helpers.label.#{resource_class.name}.#{attr_key}",
+	  I18n.t(
+            "helpers.label.#{resource_class.name.downcase}.#{attr_key}",
             default: attr_key,
           ).titleize
         end
