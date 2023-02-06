@@ -54,7 +54,7 @@ ATTRIBUTE_TYPES = {
  created_at: Field::DateTime.with_options(transform_on_export: -> (field) { field.data.strftime("%F") })
 ```
 
-By default the gem adds the Export button to the view `views/admin/application/index.html.erb`. But if you have your own Administrate `index` views, you can add the link manually:
+By default the gem adds the Export button to the partial `views/admin/application/_index_header.html.erb`. But if you have your own Administrate `index` views or override that partial in your application you can add the link manually:
 ```ruby
 link_to('Export', [:export, namespace.to_sym, page.resource_name.to_s.pluralize.to_sym, sanitized_order_params(page, :id).to_h.merge(format: :csv)], class: 'button') if valid_action?(:export)
 ```
@@ -77,7 +77,7 @@ Example:
       'Export',
       [:export, namespace.to_sym, page.resource_name.to_s.pluralize.to_sym, sanitized_order_params(page, :id).to_h.merge(format: :csv)],
       class: 'button'
-    ) if valid_action?(:export) %>    
+    ) if valid_action?(:export) %>
   </div>
 ....
 ```
