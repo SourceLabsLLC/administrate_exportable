@@ -17,15 +17,19 @@ Or install it yourself as:
 ## Usage
 
 For each resource you want to be exportable, add the following line to the their respective Administrate controller.
+
 ```ruby
 include AdministrateExportable::Exporter
 ```
+
 and the following line in the `config/routes.rb` file, correctly nested on resources
+
 ```ruby
 get :export, on: :collection
 ```
 
 Example:
+
 ```ruby
 namespace :admin do
   resources :organizations do
@@ -37,6 +41,7 @@ namespace :admin do
 By default all the attributes from `ATTRIBUTE_TYPES` will be exported. If you want to exclude an attribute, you can use the option: `export: false`.
 
 Example:
+
 ```ruby
 class BusinessDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
@@ -49,12 +54,14 @@ class BusinessDashboard < Administrate::BaseDashboard
 For the default field types from Administrate, we export the values you got from the partial `views/fields/index`. And if it is a custom field, we just run `field.to_s`.
 But if you want to specify the value to be exported, you can use the option `transform_on_export`, to pass a `Proc` that receives the `field`.
 Example:
+
 ```ruby
 ATTRIBUTE_TYPES = {
  created_at: Field::DateTime.with_options(transform_on_export: -> (field) { field.data.strftime("%F") })
 ```
 
 By default the gem adds the Export button to the partial `views/admin/application/_index_header.html.erb`. But if you have your own Administrate `index` views or override that partial in your application you can add the link manually:
+
 ```ruby
 link_to('Export', [:export, namespace.to_sym, page.resource_name.to_s.pluralize.to_sym, sanitized_order_params(page, :id).to_h.merge(format: :csv)], class: 'button') if valid_action?(:export)
 ```
@@ -80,6 +87,30 @@ Example:
     ) if valid_action?(:export) %>
   </div>
 ....
+```
+
+### Using with Pundit
+
+If you are using [Pundit](https://github.com/varvet/pundit) in your project you will receive an error saying `undefined method 'export?' for #<Admin::OrganizationPolicy>`. This is because the `export` action is not defined in the policy.
+
+To fix this issue you need to add the `export` action to the policy and define the logic for who can export the resource.
+
+Example:
+
+```ruby
+module Admin
+  class OrganizationPolicy < ApplicationPolicy
+    # ... other methods ...
+
+    def export?
+      # Define the logic for who can export organizations
+      # For example, allow only admins to export:
+      user.admin?
+    end
+
+    # ... other methods ...
+  end
+end
 ```
 
 ## Development
