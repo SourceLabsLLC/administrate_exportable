@@ -53,7 +53,7 @@ module AdministrateExportable
       when Administrate::Field::Time.to_s
         field.data.strftime("%I:%M%p").to_s if field.data
       when Administrate::Field::JSONB.to_s
-	field.to_json
+        field.to_json
       else
         field.to_s
       end
