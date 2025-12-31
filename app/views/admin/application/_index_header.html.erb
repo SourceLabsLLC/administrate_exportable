@@ -30,6 +30,6 @@
       [:export, namespace, page.resource_name.to_s.pluralize.to_sym, sanitized_order_params(page, :id).to_h.merge(format: :csv)],
       class: 'button',
       target: '_blank'
-    ) if valid_action?(:export) && show_action?(:export, resource_name) %>
+    ) if existing_action?(resource_class, :export) && authorized_action?(resource_name, :export) %>
   </div>
 </header>
