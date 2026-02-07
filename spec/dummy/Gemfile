@@ -1,14 +1,16 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-gem 'rails', '~> 7.0.0'
-gem 'sqlite3', '~> 1.4'
-gem 'administrate', '~> 0.19.0'
-gem 'administrate_exportable', path: File.path('../../')
+gem "rails", "~> 7.1.0"
+gem "sqlite3"
+gem "administrate", "~> 0.19.0"
+gem "administrate_exportable", path: File.path("../../")
 
 group :development, :test do
-  gem 'rb-readline'
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  gem 'rspec-rails', '~> 6.0'
-  gem 'pry-byebug'
+  gem "rb-readline"
+  gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
+  gem "rspec-rails", "~> 6.0"
+  gem "pry-byebug"
+  gem "standard"
+  gem "yard"
 end
