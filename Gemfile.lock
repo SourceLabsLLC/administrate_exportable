@@ -342,7 +342,6 @@ PLATFORMS
   arm64-darwin
   ruby
   x86_64-darwin
-  x86_64-linux
   x86_64-linux-gnu
 
 DEPENDENCIES
