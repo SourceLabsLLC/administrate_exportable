@@ -3,7 +3,6 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 gem "rails", "~> 7.1.0"
 gem "sqlite3"
-gem "minitest", "< 5.25" # Ruby 3.0 compatibility
 gem "administrate", "~> 0.19.0"
 gem "administrate_exportable", path: File.path("../../")
 
