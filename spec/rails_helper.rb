@@ -1,11 +1,15 @@
 # frozen_string_literal: true
-ENV['RAILS_ENV'] ||= 'test'
 
-require 'rails/all'
+ENV["RAILS_ENV"] ||= "test"
 
-system({"RAILS_ENV" => "test"}, "cd spec/dummy ; bin/rails db:reset ; rm db/migrate/test.sqlite3")
+require "rails/all"
+require "dummy/config/environment"
 
-require 'dummy/config/environment'
-require 'rspec/rails'
-require 'administrate_exportable'
-require 'spec_helper'
+# Setup test database
+ActiveRecord::Tasks::DatabaseTasks.drop_current
+ActiveRecord::Tasks::DatabaseTasks.create_current
+ActiveRecord::Tasks::DatabaseTasks.load_schema_current
+
+require "rspec/rails"
+require "administrate_exportable"
+require "spec_helper"

@@ -1,4 +1,4 @@
-require 'csv'
+require "csv"
 
 module AdministrateExportable
   class ExporterService
@@ -14,7 +14,6 @@ module AdministrateExportable
 
     def csv
       CSV.generate(headers: true) do |csv|
-
         csv << headers
 
         collection.find_each do |record|
@@ -30,7 +29,7 @@ module AdministrateExportable
     attr_reader :dashboard, :resource_class, :resources, :sanitizer
 
     def record_attribute(record, attribute_key, attribute_type)
-      field = attribute_type.new(attribute_key, record.send(attribute_key), 'index', resource: record)
+      field = attribute_type.new(attribute_key, record.send(attribute_key), "index", resource: record)
       transform_on_export = attribute_type.respond_to?(:options) && attribute_type.options[:transform_on_export]
 
       if transform_on_export.is_a? Proc
@@ -41,7 +40,7 @@ module AdministrateExportable
       when Administrate::Field::BelongsTo.to_s, Administrate::Field::HasOne.to_s, Administrate::Field::Polymorphic.to_s
         field.display_associated_resource if field.data
       when Administrate::Field::HasMany.to_s
-        field.data.count if field.data
+        field.data&.count
       when Administrate::Field::DateTime.to_s
         field.datetime if field.data
       when Administrate::Field::Date.to_s
@@ -61,24 +60,22 @@ module AdministrateExportable
       attributes_to_export.map do |attribute_key, _|
         attr_key = attribute_key.to_s
 
-        if attr_key.include?('_id')
+        if attr_key.include?("_id")
           attr_key
         else
-	  I18n.t(
+          I18n.t(
             "helpers.label.#{resource_class.name.downcase}.#{attr_key}",
-            default: attr_key,
+            default: attr_key
           ).titleize
         end
       end
     end
 
     def attributes_to_export
-      @attributes_to_export ||= begin
-        dashboard.class::ATTRIBUTE_TYPES.select do |attribute_key, attribute_type|
-          attribute_options = attribute_type.try(:options)
+      @attributes_to_export ||= dashboard.class::ATTRIBUTE_TYPES.select do |attribute_key, attribute_type|
+        attribute_options = attribute_type.try(:options)
 
-          !attribute_options || attribute_options[:export] != false
-        end
+        !attribute_options || attribute_options[:export] != false
       end
     end
 

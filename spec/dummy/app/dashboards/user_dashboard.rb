@@ -16,7 +16,7 @@ class UserDashboard < Administrate::BaseDashboard
     email: Field::Email,
     password: Field::Password,
     birthdate: Field::Date,
-    created_at: Field::DateTime.with_options(transform_on_export: -> (field) { field.data.strftime("%F") }),
+    created_at: Field::DateTime.with_options(transform_on_export: ->(field) { field.data.strftime("%F") }),
     updated_at: Field::DateTime
   }.freeze
 
@@ -30,7 +30,7 @@ class UserDashboard < Administrate::BaseDashboard
     :first_name,
     :last_name,
     :email,
-    :created_at,
+    :created_at
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -41,7 +41,7 @@ class UserDashboard < Administrate::BaseDashboard
     :last_name,
     :email,
     :created_at,
-    :updated_at,
+    :updated_at
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -51,7 +51,7 @@ class UserDashboard < Administrate::BaseDashboard
     :first_name,
     :last_name,
     :email,
-    :password,
+    :password
   ].freeze
 
   # Overwrite this method to customize how users are displayed
