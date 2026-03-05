@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    administrate_exportable (0.6.3)
+    administrate_exportable (0.7.0)
       actionview (>= 5.2.2.1)
       administrate (>= 0.17.0)
       csv (~> 3.0)
