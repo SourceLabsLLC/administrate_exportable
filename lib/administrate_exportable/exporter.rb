@@ -11,8 +11,8 @@ module AdministrateExportable
         define_method(:export) do
           search_term = params[:search].to_s.strip
           resources = Administrate::Search.new(scoped_resource,
-                                               dashboard,
-                                               search_term).run
+            dashboard,
+            search_term).run
           resources = apply_collection_includes(resources)
           resources = order.apply(resources)
 
