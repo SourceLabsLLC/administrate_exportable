@@ -18,7 +18,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: db/test.sqlite3
+  database: <%= File.expand_path('db/test.sqlite3', File.dirname(__FILE__) + '/..') %>
 
 production:
   <<: *default
