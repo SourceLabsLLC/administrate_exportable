@@ -108,5 +108,51 @@ RSpec.describe AdministrateExportable::ExporterService, type: :helper do
         expect(parsed_data[1][4]).to eq "04:05AM"
       end
     end
+
+    context "when there are no records to export" do
+      let(:result) { AdministrateExportable::ExporterService.csv(UserDashboard.new, User, User.none) }
+
+      it "exports only the headers" do
+        expect(parsed_data.size).to eq 1
+        expect(parsed_data[0].first).to eq "Id"
+      end
+    end
+
+    context "when passing the dashboard class instead of an instance" do
+      let(:result) { AdministrateExportable::ExporterService.csv(UserDashboard, User, User.all) }
+
+      it "exports correct data" do
+        expect(parsed_data[1][1]).to eq "John"
+      end
+    end
+
+    context "preloading associations" do
+      before do
+        user = User.create(first_name: "Jane", last_name: "Roe", email: "jane@email.com", password: "1234567891011213")
+        user.dogs.create(name: "Rex")
+        user.create_cat(name: "Tom")
+      end
+
+      def count_queries(&block)
+        queries = []
+        callback = ->(*, payload) { queries << payload[:sql] unless payload[:name] == "SCHEMA" }
+        ActiveSupport::Notifications.subscribed(callback, "sql.active_record", &block)
+        queries.size
+      end
+
+      it "does not issue a query per record for exported associations" do
+        queries = count_queries { AdministrateExportable::ExporterService.csv(UserDashboard.new, User, User.all) }
+
+        # users + dogs + cats
+        expect(queries).to eq 3
+      end
+
+      it "preloads belongs_to associations" do
+        queries = count_queries { AdministrateExportable::ExporterService.csv(CatDashboard.new, Cat, Cat.all) }
+
+        # cats + users
+        expect(queries).to eq 2
+      end
+    end
   end
 end
