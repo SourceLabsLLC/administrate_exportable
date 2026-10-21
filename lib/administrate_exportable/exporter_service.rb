@@ -7,7 +7,7 @@ module AdministrateExportable
     end
 
     def initialize(dashboard, resource_class, resources)
-      @dashboard = dashboard
+      @dashboard = dashboard.is_a?(Class) ? dashboard.new : dashboard
       @resource_class = resource_class
       @resources = resources
     end
@@ -40,7 +40,7 @@ module AdministrateExportable
       when Administrate::Field::BelongsTo.to_s, Administrate::Field::HasOne.to_s, Administrate::Field::Polymorphic.to_s
         field.display_associated_resource if field.data
       when Administrate::Field::HasMany.to_s
-        field.data&.count
+        field.data&.size
       when Administrate::Field::DateTime.to_s
         field.datetime if field.data
       when Administrate::Field::Date.to_s
@@ -72,7 +72,7 @@ module AdministrateExportable
     end
 
     def attributes_to_export
-      @attributes_to_export ||= dashboard.class::ATTRIBUTE_TYPES.select do |attribute_key, attribute_type|
+      @attributes_to_export ||= dashboard.attribute_types.select do |attribute_key, attribute_type|
         attribute_options = attribute_type.try(:options)
 
         !attribute_options || attribute_options[:export] != false
@@ -80,7 +80,18 @@ module AdministrateExportable
     end
 
     def collection
-      resources
+      return resources if associations_to_preload.empty?
+
+      resources.preload(*associations_to_preload)
+    end
+
+    # Preload every exported association to avoid N+1 queries
+    def associations_to_preload
+      @associations_to_preload ||= attributes_to_export.select do |attribute_key, attribute_type|
+        attribute_type.respond_to?(:associative?) &&
+          attribute_type.associative? &&
+          resource_class.reflect_on_association(attribute_key)
+      end.keys
     end
   end
 end

@@ -13,3 +13,7 @@ ActiveRecord::Tasks::DatabaseTasks.load_schema_current
 require "rspec/rails"
 require "administrate_exportable"
 require "spec_helper"
+
+RSpec.configure do |config|
+  config.use_transactional_fixtures = true
+end
