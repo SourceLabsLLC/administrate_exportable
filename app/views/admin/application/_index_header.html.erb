@@ -27,9 +27,10 @@
 
     <%= link_to(
       'Export',
-      [:export, namespace, page.resource_name.to_s.pluralize.to_sym, sanitized_order_params(page, :id).to_h.merge(format: :csv)],
+      url_for(sanitized_order_params(page, :id).to_h.merge(action: :export, format: :csv)),
       class: 'button',
-      target: '_blank'
-    ) if valid_action?(:export) && show_action?(:export, resource_name) %>
+      target: '_blank',
+      data: { turbolinks: false, turbo: false }
+    ) if existing_action?(resource_class, :export) && authorized_action?(resource_name, :export) %>
   </div>
 </header>

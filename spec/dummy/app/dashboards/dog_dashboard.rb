@@ -14,7 +14,7 @@ class DogDashboard < Administrate::BaseDashboard
     name: Field::String,
     walk_time: Field::Time,
     created_at: Field::DateTime.with_options(export: false),
-    updated_at: Field::DateTime.with_options(export: false),
+    updated_at: Field::DateTime.with_options(export: false)
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -27,7 +27,7 @@ class DogDashboard < Administrate::BaseDashboard
     :id,
     :name,
     :walk_time,
-    :created_at,
+    :created_at
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -38,7 +38,7 @@ class DogDashboard < Administrate::BaseDashboard
     :name,
     :walk_time,
     :created_at,
-    :updated_at,
+    :updated_at
   ].freeze
 
   # FORM_ATTRIBUTES
