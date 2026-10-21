@@ -1,1 +1,2 @@
-<%= paginate resources, param_name: AdministrateExportable::PAGE_PARAM %>
+<% param_name = local_assigns.fetch(:param_name, AdministrateExportable::PAGE_PARAM) %>
+<%= paginate resources, param_name: param_name %>
