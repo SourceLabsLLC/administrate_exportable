@@ -10,9 +10,12 @@ module AdministrateExportable
       def exportable
         define_method(:export) do
           search_term = params[:search].to_s.strip
-          resources = Administrate::Search.new(scoped_resource,
-            dashboard,
-            search_term).run
+          resources = if respond_to?(:filter_resources, true)
+            filter_resources(scoped_resource, search_term: search_term)
+          else
+            # Administrate < 0.18 has no filter_resources hook
+            Administrate::Search.new(scoped_resource, dashboard, search_term).run
+          end
           resources = apply_collection_includes(resources)
           resources = order.apply(resources)
 

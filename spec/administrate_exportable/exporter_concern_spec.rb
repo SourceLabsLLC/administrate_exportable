@@ -26,6 +26,20 @@ RSpec.describe "Exporter Concern", type: :request do
       expect(rows[1][1]).to eq "Jane"
     end
 
+    it "uses the controller's filter_resources to apply custom search" do
+      User.create(first_name: "John", last_name: "Doe", email: "john@email.com")
+      User.create(first_name: "Jane", last_name: "Roe", email: "jane@email.com")
+      allow_any_instance_of(Admin::UsersController).to receive(:filter_resources)
+        .with(anything, search_term: "custom")
+        .and_return(User.where(last_name: "Roe"))
+
+      get export_admin_users_url(format: :csv, search: "custom")
+
+      rows = CSV.parse(response.body)
+      expect(rows.size).to eq 2
+      expect(rows[1][2]).to eq "Roe"
+    end
+
     it "exports only headers when the search has no results" do
       get export_admin_users_url(format: :csv, search: "nobody")
 
